@@ -3,58 +3,65 @@ import matplotlib.pyplot as plt
 import math
 import tkinter
 
-class ButtonEntry():
-    def __init__(self, root, xx):
-        self_entry_var = ""
-
-        startLabel = tkinter.Label(root, text = xx)
-        self.startEntry = tkinter.Entry(root)
-
-        startLabel.pack()
-        self.startEntry.pack()
-        self.startEntry.focus_set()
-
-        self.writing()
-        plotButton = tkinter.Button(root, text = "Write",command = self.writing).pack()
-
-    def writing(self):
-        self.entry_var = self.startEntry.get()
-        print("inside class", self.entry_var)
-
+from tkinter import *
+fields = 'xo', 'xf', 'yo', 'yf', 'Function'
 
 def function(x,y,func):
     return eval(func)
 
-def close_window():
-    window.destroy()
+def getVal(entries, text):
+    a = float(entries[text].get())
+    return a
 
-root = tkinter.Tk()
-root.title("Equation Grapher")
+def getFunc(entries):
+    f = str(entries['Function'].get())
+    return f
 
-b1 = ButtonEntry(root, "Enter xo: ")
-b2 = ButtonEntry(root, "Enter xf: ")
-b3 = ButtonEntry(root, "Enter yo: ")
-b4 = ButtonEntry(root, "Enter yf: ")
-b5 = ButtonEntry(root, "Enter the function: ")
+def hur(entries):
+    global xo
+    global xf
+    global yo
+    global yf
+    global f
+    xo = getVal(entries, 'xo') 
+    xf = getVal(entries, 'xf') 
+    yo = getVal(entries, 'yo') 
+    yf = getVal(entries, 'yf') 
+    f = getFunc(entries)
+    root.quit()
 
-closing_button = tkinter.Button(root, text="Graph the function", command=root.destroy)
-closing_button.pack()
+def makeform(root, fields):
+   entries = {}
+   for field in fields:
+      row = Frame(root)
+      lab = Label(row, width=22, text=field+": ", anchor='w')
+      ent = Entry(row)
+      ent.insert(0,"0")
+      row.pack(side=TOP, fill=X, padx=5, pady=5)
+      lab.pack(side=LEFT)
+      ent.pack(side=RIGHT, expand=YES, fill=X)
+      entries[field] = ent
+   return entries
 
-root.mainloop()
+if __name__ == '__main__':
+   root = Tk()
+   root.title("Equation Grapher")
+   ents = makeform(root, fields)
+   b1 = Button(root, text='Calculate',
+          command=(lambda e=ents: hur(e)))
+   b1.pack(side=LEFT, padx=5, pady=5)
+   root.mainloop()
 
-xo = float(b1.entry_var)
-xf = float(b2.entry_var)
-
-yo = float(b3.entry_var)
-yf = float(b4.entry_var)
-
-Z = str(b5.entry_var)
+   print (xo)
+   print (xf)
+   print (yo)
+   print (yf)
+   print (f)
 
 
 #getting "dx" and "dy"
 dx = float(xf - xo) / 100
 dy = float(yf - yo) / 100
-
 
 x = np.arange(xo, xf, dx)
 y = np.arange(yo, yf, dy)
@@ -69,7 +76,7 @@ Zmatrix = [[0 for c in range(a)] for d in range(b)]
 
 for i in range(0, int(math.floor(xf/dx) - 1)):
     for j in range(0, int(math.floor(yf/dy) - 1)):
-        Zmatrix[i][j] = function(x[j] + j, y[i] + i, Z)
+        Zmatrix[i][j] = function(x[j] + j, y[i] + i, f)
 
 plt.contour(X, Y, Zmatrix, 100)
 plt.show()
