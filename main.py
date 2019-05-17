@@ -1,9 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import math
-import tkinter
-
 from tkinter import *
+
 fields = 'xo', 'xf', 'yo', 'yf', 'Function'
 
 def function(x,y,func):
@@ -23,10 +22,10 @@ def hur(entries):
     global yo
     global yf
     global f
-    xo = getVal(entries, 'xo') 
-    xf = getVal(entries, 'xf') 
-    yo = getVal(entries, 'yo') 
-    yf = getVal(entries, 'yf') 
+    xo = getVal(entries, 'xo')
+    xf = getVal(entries, 'xf')
+    yo = getVal(entries, 'yo')
+    yf = getVal(entries, 'yf')
     f = getFunc(entries)
     root.quit()
 
@@ -52,31 +51,24 @@ if __name__ == '__main__':
    b1.pack(side=LEFT, padx=5, pady=5)
    root.mainloop()
 
-   print (xo)
-   print (xf)
-   print (yo)
-   print (yf)
-   print (f)
+   #getting "dx" and "dy"
+   dx = float(xf - xo) / 100
+   dy = float(yf - yo) / 100
 
+   x = np.arange(xo, xf, dx)
+   y = np.arange(yo, yf, dy)
 
-#getting "dx" and "dy"
-dx = float(xf - xo) / 100
-dy = float(yf - yo) / 100
+   plt.figure()
+   a = len(x)
+   b = len(y)
 
-x = np.arange(xo, xf, dx)
-y = np.arange(yo, yf, dy)
+   X,Y = np.meshgrid(x, y)
 
-plt.figure()
-a = len(x)
-b = len(y)
+   Zmatrix = [[0 for c in range(a)] for d in range(b)]
 
-X,Y = np.meshgrid(x, y)
+   for i in range(0, int(math.floor(xf/dx) - 1)):
+       for j in range(0, int(math.floor(yf/dy) - 1)):
+           Zmatrix[i][j] = function(x[j] + j, y[i] + i, f)
 
-Zmatrix = [[0 for c in range(a)] for d in range(b)]
-
-for i in range(0, int(math.floor(xf/dx) - 1)):
-    for j in range(0, int(math.floor(yf/dy) - 1)):
-        Zmatrix[i][j] = function(x[j] + j, y[i] + i, f)
-
-plt.contour(X, Y, Zmatrix, 100)
-plt.show()
+   plt.contour(X, Y, Zmatrix, 100)
+   plt.show()
