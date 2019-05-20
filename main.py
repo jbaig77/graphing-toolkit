@@ -5,7 +5,7 @@ from tkinter import *
 
 fields = 'xo', 'xf', 'yo', 'yf', 'Function'
 
-def function(x,y,func):
+def func(x,y,func):
     return eval(func)
 
 def getVal(entries, text):
@@ -51,24 +51,14 @@ if __name__ == '__main__':
    b1.pack(side=LEFT, padx=5, pady=5)
    root.mainloop()
 
-   #getting "dx" and "dy"
-   dx = float(xf - xo) / 100
-   dy = float(yf - yo) / 100
-
-   x = np.arange(xo, xf, dx)
-   y = np.arange(yo, yf, dy)
+   x = np.linspace(xo, xf, 50)
+   y = np.linspace(yo, yf, 50)
 
    plt.figure()
-   a = len(x)
-   b = len(y)
 
    X,Y = np.meshgrid(x, y)
+   Z = func(X, Y, f)
 
-   Zmatrix = [[0 for c in range(a)] for d in range(b)]
-
-   for i in range(0, int(math.floor(xf/dx) - 1)):
-       for j in range(0, int(math.floor(yf/dy) - 1)):
-           Zmatrix[i][j] = function(x[j] + j, y[i] + i, f)
-
-   plt.contour(X, Y, Zmatrix, 100)
+   plt.contourf(X,Y,Z,20,cmap='RdGy')
+   plt.colorbar()
    plt.show()
