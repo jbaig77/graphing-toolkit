@@ -17,11 +17,11 @@ import numpy as np
 from matplotlib import pyplot as plt
 from array import *
 
-def function(dx):
+global xo
+global yo
+global xf
 
-    xo = 0
-    yo = 10
-    xf = 10
+def function(dx):
     n = int((xf-xo)/dx)+1
 
     x = np.linspace(0,10,n)
@@ -35,10 +35,11 @@ def function(dx):
         f = 0
         y[i+1] = (f-b*y[i])*dx/3. + y[i]
         #y[i+1] = dx*(x[i]**2) - ((4 * dx)/3)*y[i] + y[i]
-
     return x, y
 
-
+xo = 0
+yo = 10
+xf = 10
 
 x1, y1 = function(1)
 x2, y2 = function(0.5)
@@ -54,5 +55,4 @@ plt.plot(x4, y4, 'c')
 plt.plot(x5, y5, 'm')
 plt.plot(x6, y6, 'y')
 
-#plt.plot(x,y)
 plt.show()
