@@ -29,12 +29,12 @@ def function(dx):
 
     y[0] = 10
     print(n)
-    for i in range(1,n-1,1):
+    for i in range(1,n,1):
         a = 3
         b = 4
-        f = 0
+        f = 3*(x[i]**2)
         #y[i+1] = (f-b*y[i])*dx/3. + y[i]
-        y[i] = f + (((a*y[i-1])/dx) / ((a/dx)+b))
+        y[i] = (f + ((a*y[i-1])/dx)) / ((a/dx) + b)
         #y[i+1] = dx*(x[i]**2) - ((4 * dx)/3)*y[i] + y[i]
         print()
     return x, y
