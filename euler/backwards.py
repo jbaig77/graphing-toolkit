@@ -28,13 +28,15 @@ def function(dx):
     y = np.zeros([n])
 
     y[0] = 10
-
-    for i in range(0,n-1,1):
+    print(n)
+    for i in range(1,n-1,1):
         a = 3
         b = 4
         f = 0
-        y[i+1] = (f-b*y[i])*dx/3. + y[i]
+        #y[i+1] = (f-b*y[i])*dx/3. + y[i]
+        y[i] = f + (((a*y[i-1])/dx) / ((a/dx)+b))
         #y[i+1] = dx*(x[i]**2) - ((4 * dx)/3)*y[i] + y[i]
+        print()
     return x, y
 
 xo = 0
@@ -48,7 +50,7 @@ x4, y4 = function(0.1)
 x5, y5 = function(0.01)
 x6, y6 = function(0.001)
 
-plt.plot(x1, y1, 'b')
+plt.plot(x1, y1, 'b') 
 plt.plot(x2, y2, 'g')
 plt.plot(x3, y3, 'r')
 plt.plot(x4, y4, 'c')
